@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController; // <--- 1. QUAN TRỌNG: Dòng này phải ở đây
 
 // 1. Trang chủ
 Route::get('/', function () {
@@ -29,7 +30,7 @@ Route::prefix('product')->group(function () {
     })->name('product.detail');
 });
 
-// 5. Thông tin sinh viên
+// 5. Thông tin sinh viên (Đã cập nhật tên Nguyễn Gia Kiệt)
 Route::get('/sinhvien/{name?}/{mssv?}', function ($name = 'Nguyen Gia Kiet', $mssv = '4003367') {
     return "Sinh viên: $name - MSSV: $mssv";
 });
@@ -38,3 +39,7 @@ Route::get('/sinhvien/{name?}/{mssv?}', function ($name = 'Nguyen Gia Kiet', $ms
 Route::get('/banco/{n}', function ($n) {
     return view('banco', compact('n'));
 });
+
+// --- COMMIT 1: Đăng ký (Code mới thêm vào) ---
+Route::get('/signin', [AuthController::class, 'showSignIn'])->name('auth.signin');
+Route::post('/signin', [AuthController::class, 'checkSignIn'])->name('auth.check');
