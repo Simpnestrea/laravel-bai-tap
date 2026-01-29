@@ -43,3 +43,15 @@ Route::get('/banco/{n}', function ($n) {
 // --- COMMIT 1: Đăng ký (Code mới thêm vào) ---
 Route::get('/signin', [AuthController::class, 'showSignIn'])->name('auth.signin');
 Route::post('/signin', [AuthController::class, 'checkSignIn'])->name('auth.check');
+// --- COMMIT 2: Check tuổi ---
+Route::get('/input-age', [AuthController::class, 'inputAge'])->name('age.form');
+Route::post('/save-age', [AuthController::class, 'processAge'])->name('age.save');
+
+// Nhóm route cần bảo vệ (Phải đủ 18 tuổi mới vào được)
+Route::middleware(['check.age'])->group(function () {
+    
+    Route::get('/admin', function () {
+        return "<h1>Chào mừng! Bạn đã trên 18 tuổi.</h1>";
+    })->name('admin.page');
+
+});
